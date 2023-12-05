@@ -1,54 +1,115 @@
-import rs from "readline-sync"
+import rs, { question } from "readline-sync";
 
-const reocuringExpense ={}
-const variableExpense ={};
+let budget = {};
+const categories = ["savings", "investment", "livingCost", "GuiltFreeExpenses"];
+const expenses = [];
 
-const generalBudget= rs.question("What is your budget?")
-variableExpense.generalBudget=Number(generalBudget)
-console.clear()
-//-------------------------------------------------------------------------
-
-
-const rentExpense =Number(rs.question("How much do you pay for rent?"))
-let frequencyExpenses=rs.question("Do you pay the same amount every month?")
-if (frequencyExpenses === "yes" ){
-    reocuringExpense.rentExpense=Number(rentExpense)
-}else {
-     variableExpense.rentExpense=Number(rentExpense)
-}
-console.clear()
-//----------------------------------------------------------------------------
-const groceries=Number(rs.question("How much do you spend for your groceries?"))
-frequencyExpenses= rs.question("Do you pay the same amount every month?")
-if (frequencyExpenses === "yes"){
-reocuringExpense.groceries=Number(groceries)
-}else {
-    variableExpense.groceries=Number(groceries)
+const amount = rs.question("What is your budget?");
+budget.amount = Number(amount);
+budget.categories = [];
+let total = 0;
+for (let i = 0; i < categories.length; i++) {
+  const percentage = Number(
+    rs.question(
+      `What percentage of your budget do you want to spend on ${categories[i]} :\n`
+    )
+  );
+  if (total + percentage > 100) {
+    i--;
+    console.log("You have exceeded your budget");
+  } else {
+    total += percentage;
+    budget.categories.push({ name: categories[i], percentage: percentage });
+  }
 }
 
-console.clear()
-//---------------------------------------------------------------------------
-const insurances= Number(rs.question("How much do you spend for insurances?"))
-frequencyExpenses=rs.question("Do you pay the same amount every month?")
-if (frequencyExpenses === "yes"){
-    reocuringExpense.insurances=Number(insurances)
-}else {
-    variableExpense.insurances=Number(insurances)
+console.log(budget);
+
+let action = "";
+
+do {
+  action = rs.question(`What do you want to do? 
+    Enter 'x' to stop the program:\n
+    Enter 'e' to add expenses:\n
+    Enter 'r' for report:\n 
+     `);
+
+  switch (action) {
+    case "r":
+      console.log("This is your report");
+      break;
+    case "e":
+      console.log("Enter the following information about your expense \n");
+      let name = rs.question(`Please enter for what you spent ?\n`);
+      let date = rs.question(`Please enter the date: Date/Month/Year\n`);
+      let amount = rs.question(`Enter the amount you spend:\n`);
+      let recurring = rs.question(
+        `Enter if is a recurring expense or not? yes/no\n`
+      );
+      let type = Number(
+        rs.question(`Choose the type of your expense:
+      1.${categories[0]}\n
+      2.${categories[1]}\n
+      3.${categories[2]}\n
+      4 ${categories[3]}\n`)
+      );
+
+      expenses.push({
+        name: name,
+        date: date,
+        amount: amount,
+        recurring: recurring === "yes",
+        type: categories[type - 1],
+      });
+      break;
+    case "x":
+      console.log("See you next time");
+      break;
+    default:
+      console.log("Invalid option.Please insert the correct character");
+  }
+} while (action != "x");
+
+console.log(expenses);
+/*
+Budget object:
+
+{
+    amount: int,
+    categories: [
+        {
+            name: string,
+            percentage: int
+        }
+    ]
 }
-console.clear()
-//-------------------------------------------------------------------------
+*/
+/* 
+Expense object:
 
+{
+    name: string,
+    date: Date,
+    amount: int,
+    recurring: bool,
+    type: string
+}
+*/
 
+// asking for a budget
+// ask for amount
 
-const goal1 = rs.question('Now let us talk about your saving goals!What do you want to save for?')
-const goal2 = rs.question("what else you want to add in your saving goal?")
-const goal3= rs.question("Continue please!")
-const goal4=rs.question("Just asking for a last goal")
+// go through categories and ask for percentage
 
+// construct the Budget object
 
+// my main loop
 
+//do {
+//action = rs.question("What do you want to do? Enter 'e' for expenses")
+// switch (action){
+// add expenses
 
+// }
 
-
-console.log(`Constant amount you pay every month `,reocuringExpense)
-console.log( `Not constant payment` ,variableExpense)
+//} while (action != "x");
