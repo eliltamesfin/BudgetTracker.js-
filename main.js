@@ -113,3 +113,6 @@ Expense object:
 // }
 
 //} while (action != "x");
+
+// function that can inform the user the remaining percentage or used percentage in expense,
+//should go through all the expense array and all the categories of budget object
