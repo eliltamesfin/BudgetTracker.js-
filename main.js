@@ -1,4 +1,5 @@
 import rs, { question } from "readline-sync";
+import { showPercentage } from "./function.js";
 
 let budget = {};
 const categories = ["savings", "investment", "livingCost", "GuiltFreeExpenses"];
@@ -40,7 +41,7 @@ do {
       break;
     case "e":
       console.log("Enter the following information about your expense \n");
-      let name = rs.question(`Please enter for what you spent ?\n`);
+      let name = rs.question(`What  is the expense about ?\n`);
       let date = rs.question(`Please enter the date: Date/Month/Year\n`);
       let amount = rs.question(`Enter the amount you spend:\n`);
       let recurring = rs.question(
@@ -61,6 +62,9 @@ do {
         recurring: recurring === "yes",
         type: categories[type - 1],
       });
+
+      showPercentage(budget, expenses);
+
       break;
     case "x":
       console.log("See you next time");
@@ -70,7 +74,6 @@ do {
   }
 } while (action != "x");
 
-console.log(expenses);
 /*
 Budget object:
 
