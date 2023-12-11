@@ -1,9 +1,11 @@
 import rs, { question } from "readline-sync";
 import { showPercentage } from "./function.js";
+import { Expense, RecurringExpense } from "./class.js";
 
 let budget = {};
 const categories = ["savings", "investment", "livingCost", "GuiltFreeExpenses"];
 const expenses = [];
+const frequencies = ["monthly", "quarterly", "semiannual", "annual"];
 
 const amount = rs.question("What is your budget?");
 budget.amount = Number(amount);
@@ -38,15 +40,13 @@ do {
   switch (action) {
     case "r":
       console.log("This is your report");
+      showPercentage(budget, expenses);
       break;
     case "e":
       console.log("Enter the following information about your expense \n");
       let name = rs.question(`What  is the expense about ?\n`);
       let date = rs.question(`Please enter the date: Date/Month/Year\n`);
       let amount = rs.question(`Enter the amount you spend:\n`);
-      let recurring = rs.question(
-        `Enter if is a recurring expense or not? yes/no\n`
-      );
       let type = Number(
         rs.question(`Choose the type of your expense:
       1.${categories[0]}\n
@@ -54,14 +54,32 @@ do {
       3.${categories[2]}\n
       4 ${categories[3]}\n`)
       );
+      let recurring = rs.question(
+        `Enter if is a recurring expense or not? yes/no\n`
+      );
+      if (recurring.toLowerCase() === "yes") {
+        let frequency = Number(
+          rs.question(`Choose the frequency:
+        1.${frequencies[0]}\n
+        2.${frequencies[1]}\n
+        3.${frequencies[2]}\n
+        4 ${frequencies[3]}\n`)
+        );
+        let stopDate = rs.question(`When will it stop ?`);
 
-      expenses.push({
-        name: name,
-        date: date,
-        amount: amount,
-        recurring: recurring === "yes",
-        type: categories[type - 1],
-      });
+        expenses.push(
+          new RecurringExpense(
+            name,
+            date,
+            amount,
+            categories[type - 1],
+            stopDate,
+            frequencies[frequency - 1]
+          )
+        );
+      } else {
+        expenses.push(new Expense(name, date, amount, categories[type - 1]));
+      }
 
       showPercentage(budget, expenses);
 
