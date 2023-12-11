@@ -92,48 +92,4 @@ do {
   }
 } while (action != "x");
 
-/*
-Budget object:
 
-{
-    amount: int,
-    categories: [
-        {
-            name: string,
-            percentage: int
-        }
-    ]
-}
-*/
-/* 
-Expense object:
-
-{
-    name: string,
-    date: Date,
-    amount: int,
-    recurring: bool,
-    type: string
-}
-*/
-
-// asking for a budget
-// ask for amount
-
-// go through categories and ask for percentage
-
-// construct the Budget object
-
-// my main loop
-
-//do {
-//action = rs.question("What do you want to do? Enter 'e' for expenses")
-// switch (action){
-// add expenses
-
-// }
-
-//} while (action != "x");
-
-// function that can inform the user the remaining percentage or used percentage in expense,
-//should go through all the expense array and all the categories of budget object
